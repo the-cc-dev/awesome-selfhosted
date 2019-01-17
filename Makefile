@@ -26,11 +26,11 @@ listlicenses:
 	@sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep --only-matching '([Aa0-Zz9]|\s|\.|-)*` `' README.md | sort --unique
 
 syntaxerrors:
-	@echo -e "\n Syntax errors:" 
+	@echo -e "\nSyntax errors:" 
 	@! sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep  '\)\(|``|\)`'
 
 contrib:
-	@mv .github/.mailmap . && printf "Commits | Author \n:---: | ---\n" > AUTHORS.md && git shortlog -sne >> AUTHORS.md && sed -i 's/\t/ | /g' AUTHORS.md && mv .mailmap .github/.mailmap
+	@mv .github/.mailmap . && printf "|Commits | Author |\n| :---: | --- |\n" > AUTHORS.md && git shortlog -sne | sed -r 's/^\s*([[:digit:]]*?)\s*?(.*?)/|\1|\2|/' >> AUTHORS.md && mv .mailmap .github/.mailmap
 
 add:
 	@#add a new entry
@@ -53,7 +53,7 @@ add:
 	else Moreinfo=$$(echo "($$CDemo$$CSource)" | sed 's|)\[|), [|g') ;\
 	fi ;\
 	echo -e "Copy this entry to your clipboard, paste it in the appropriate category:\n\n" ;\
-	echo " * [$$Name]($$Url) - $${Description} $${Moreinfo} \`$$License\` \`$$Language\`"
+	echo "- [$$Name]($$Url) - $${Description} $${Moreinfo} \`$$License\` \`$$Language\`"
 
 
 #TODO ask for category and insert item accordingly
